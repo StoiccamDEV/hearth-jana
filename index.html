@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        
+        .intro-screen {
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .intro-screen h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #2563eb;
+        }
+        
+        .intro-screen p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #374151;
+        }
+        
+        .start-button {
+            background: #2563eb;
+            color: white;
+            border: 3px solid #2563eb;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .start-button:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            transform: scale(1.05);
+        }
+        
+        .start-button:active {
+            transform: scale(0.95);
+        }
+        
+        .heart-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .heart {
+            display: inline-block;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.2;
+            letter-spacing: 2px;
+            color: #2563eb;
+            font-weight: bold;
+            min-height: 300px;
+        }
+        
+        .heart-line {
+            white-space: pre;
+        }
+        
+        .emoji {
+            margin-top: 40px;
+            font-size: 32px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .emoji.show {
+            opacity: 1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-screen" id="introScreen">
+        <h1>Algo sorpresa para ti >:D</h1>
+        <p>Haz clic para descubrir...</p>
+        <button class="start-button" id="startButton">Comenzar</button>
+    </div>
+
+    <div class="heart-screen" id="heartScreen">
+        <div class="heart" id="heart"></div>
+        <div class="emoji" id="emoji">💙</div>
+    </div>
+
+    <script>
+        const heartShape = [
+            "      Jana Jana        Jana Jana      ",
+            "   Jana Jana Jana    Jana Jana Jana   ",
+            "  Jana Jana Jana Jana Jana Jana Jana Jana  ",
+            " Jana Jana Jana Jana Jana Jana Jana Jana Jana ",
+            "Jana Jana Jana Jana Jana Jana Jana Jana Jana Jana",
+            "Jana Jana Jana Jana Jana Jana Jana Jana Jana Jana",
+            "Jana Jana Jana Jana Jana Jana Jana Jana Jana Jana",
+            " Jana Jana Jana Jana Jana Jana Jana Jana Jana ",
+            "  Jana Jana Jana Jana Jana Jana Jana Jana  ",
+            "   Jana Jana Jana Jana Jana Jana Jana   ",
+            "    Jana Jana Jana Jana Jana Jana    ",
+            "      Jana Jana Jana Jana Jana      ",
+            "       Jana Jana Jana Jana       ",
+            "         Jana Jana Jana         ",
+            "          Jana Jana          ",
+            "            Jana            "
+        ];
+
+        const startButton = document.getElementById('startButton');
+        const introScreen = document.getElementById('introScreen');
+        const heartScreen = document.getElementById('heartScreen');
+        const heartContainer = document.getElementById('heart');
+        const emoji = document.getElementById('emoji');
+
+        startButton.addEventListener('click', () => {
+            introScreen.style.animation = 'fadeIn 0.5s ease-out reverse';
+            setTimeout(() => {
+                introScreen.classList.add('hidden');
+                heartScreen.style.display = 'block';
+                startHeartAnimation();
+            }, 500);
+        });
+
+        function startHeartAnimation() {
+            let currentLine = 0;
+            let currentChar = 0;
+
+            function addCharacter() {
+                if (currentLine < heartShape.length) {
+                    const line = heartShape[currentLine];
+                    
+                    if (currentChar === 0) {
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'heart-line';
+                        lineDiv.id = `line-${currentLine}`;
+                        heartContainer.appendChild(lineDiv);
+                    }
+                    
+                    const lineDiv = document.getElementById(`line-${currentLine}`);
+                    lineDiv.textContent += line[currentChar];
+                    
+                    currentChar++;
+                    
+                    if (currentChar >= line.length) {
+                        currentLine++;
+                        currentChar = 0;
+                    }
+                    
+                    setTimeout(addCharacter, 20);
+                } else {
+                    emoji.classList.add('show');
+                }
+            }
+
+            addCharacter();
+        }
+    </script>
+</body>
+</html>
